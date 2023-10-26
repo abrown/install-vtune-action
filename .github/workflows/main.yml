@@ -16,3 +16,20 @@ jobs:
       - uses: ./
       - name: Perform collection
         run: vtune -collect hotspots -knob sampling-mode=hw -result-dir=/tmp/vtune-results sleep 1
+
+  env:
+    name: Check environment changes
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Capture initial environment
+        run: env > before.env
+        shell: bash
+      - name: Install VTune
+        uses: ./
+      - name: Capture environment again
+        run: env > after.env
+        shell: bash
+      - name: Compare "before" and "after" environments
+        run: git diff --no-index before.env after.env || echo "differences found"
+        shell: bash
