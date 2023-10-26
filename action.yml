@@ -1,0 +1,35 @@
+name: 'Install VTune'
+description: 'Install the VTune binaries on a GitHub runner'
+
+# See https://docs.github.com/en/actions/creating-actions/metadata-syntax-for-github-actions#inputs
+inputs:
+  env:
+    description: 'Run the VTune setup script to configure the environment'
+    default: true
+
+runs:
+  using: composite
+  steps:
+  - name: Only allow Linux runners
+    run: |
+      echo "this action currently only works on Linux runners"
+      exit 1
+    shell: bash
+    working-directory: ${{ github.action_path }}
+    if: ${{ !startsWith(runner.os, 'linux') }}
+  - name: Install
+    run: ./install.sh
+    shell: bash
+    working-directory: ${{ github.action_path }}
+    if: ${{ startsWith(runner.os, 'linux') }}
+  - name: Setup environment
+    run: |
+      source $HOME/intel/oneapi/setvars.sh
+      echo ACCEPT_EULA=$ACCEPT_EULA >> $GITHUB_ENV
+      echo ONEAPI_ROOT=$ONEAPI_ROOT >> $GITHUB_ENV
+      echo PKG_CONFIG_PATH=$PKG_CONFIG_PATH >> $GITHUB_ENV
+      echo VTUNE_PROFILER_2023_DIR=$VTUNE_PROFILER_2023_DIR >> $GITHUB_ENV
+      echo VTUNE_PROFILER_DIR=$VTUNE_PROFILER_DIR >> $GITHUB_ENV
+      echo $VTUNE_PROFILER_DIR/bin64 >> $GITHUB_PATH
+    shell: bash
+    if: ${{ inputs.env == 'true' }}
