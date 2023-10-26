@@ -16,6 +16,4 @@ jobs:
       - name: Install VTune
         uses: ./
       - name: Perform collection
-        run: |
-          sudo sysctl kernel.yama.ptrace_scope=0
-          vtune -collect hotspots -result-dir=/tmp/vtune-results sleep 1
+        run: vtune -collect hotspots -result-dir=/tmp/vtune-results sleep 1

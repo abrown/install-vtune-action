@@ -33,3 +33,7 @@ runs:
       echo $VTUNE_PROFILER_DIR/bin64 >> $GITHUB_PATH
     shell: bash
     if: ${{ inputs.env == 'true' }}
+  - name: Setup kernel
+    run: sudo sysctl kernel.yama.ptrace_scope=0
+    shell: bash
+    if: ${{ inputs.env == 'true' }}
