@@ -22,17 +22,22 @@ runs:
       exit 1
     shell: bash
     if: ${{ !startsWith(runner.os, 'linux') }}
+  - name: Canonicalize path
+    run: |
+      echo VTUNE_INSTALL_SCRIPT=$(realpath ${{ github.action_path }}${{ inputs.script }}) >> $GITHUB_ENV
+    shell: bash
   - name: Debug
     run: |
       echo "Running on ${{ runner.os }}"
       echo "Action path: ${{ github.action_path }}"
+      echo "Script path: ${{ env.VTUNE_INSTALL_SCRIPT }}"
       echo "Script: ${{ inputs.script }}"
       echo "SHA384: ${{ inputs.sha384 }}"
     shell: bash
   - name: Cache artifacts
     uses: actions/cache@v3
     with:
-      path: ${{ github.action_path }}${{ inputs.script }}
+      path: ${{ env.VTUNE_INSTALL_SCRIPT }}
       key: vtune-${{ inputs.script }}
   - name: More debug
     shell: bash
