@@ -17,11 +17,23 @@ runs:
     shell: bash
     working-directory: ${{ github.action_path }}
     if: ${{ !startsWith(runner.os, 'linux') }}
-  - name: Install
+
+  # Cache the entire VTune installation directory.
+  - name: Cache artifacts
+    id: cache-vtune-installation
+    uses: actions/cache@v3
+    with:
+      path: ${{ env.HOME }}/intel/oneapi
+      key: vtune
+
+  # Install on cache miss.
+  - if: ${{ steps.cache-vtune-installation.outputs.cache-hit != 'true' }}
+    name: Install
     run: ./install.sh
     shell: bash
     working-directory: ${{ github.action_path }}
-    if: ${{ startsWith(runner.os, 'linux') }}
+
+  # Configure the GitHub runner.
   - name: Setup environment
     run: |
       source $HOME/intel/oneapi/setvars.sh
