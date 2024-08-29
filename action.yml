@@ -18,7 +18,7 @@ runs:
   steps:
   - name: Only allow Linux runners
     run: |
-      echo "this action currently only works on Linux runners"
+      echo "This action currently only works on Linux runners"
       exit 1
     shell: bash
     if: ${{ !startsWith(runner.os, 'linux') }}
