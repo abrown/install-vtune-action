@@ -33,6 +33,12 @@ runs:
     shell: bash
     working-directory: ${{ github.action_path }}
 
+  - name: Debug
+    run: |
+      echo $HOME
+      echo $HOME/intel/oneapi
+    shell: bash
+
   # Configure the GitHub runner.
   - name: Setup environment
     run: |
