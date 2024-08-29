@@ -32,7 +32,7 @@ runs:
   - name: Cache artifacts
     uses: actions/cache@v3
     with:
-      path: ${{ github.action_path }}/${{ inputs.script }}
+      path: ${{ github.action_path }}${{ inputs.script }}
       key: ${{ inputs.script }}
   - name: Install
     run: ./install.sh ${{ inputs.script }} ${{ inputs.sha384 }}
