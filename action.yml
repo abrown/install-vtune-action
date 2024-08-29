@@ -6,6 +6,12 @@ inputs:
   env:
     description: 'Run the VTune setup script to configure the environment'
     default: true
+  script:
+    description: 'The script to run to install VTune'
+    default: 'l_oneapi_vtune_p_2023.2.0.49485_offline.sh'
+  sha384:
+    description: 'The SHA384 checksum of the installation script'
+    default: '43431383783e8a204f67f5f6719f74becb8e3c97862661b20b56c2c5d87c529d103a1493779565b4bbb3f372092c1b6b'
 
 runs:
   using: composite
@@ -15,10 +21,14 @@ runs:
       echo "this action currently only works on Linux runners"
       exit 1
     shell: bash
-    working-directory: ${{ github.action_path }}
     if: ${{ !startsWith(runner.os, 'linux') }}
+  - name: Cache artifacts
+    uses: actions/cache@v3
+    with:
+      path: ${{ github.action_path }}/${{ inputs.script }}
+      key: ${{ inputs.script }}
   - name: Install
-    run: ./install.sh
+    run: ./install.sh ${{ inputs.script }} ${{ inputs.sha384 }}
     shell: bash
     working-directory: ${{ github.action_path }}
     if: ${{ startsWith(runner.os, 'linux') }}
