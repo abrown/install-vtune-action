@@ -23,7 +23,7 @@ runs:
     id: cache-vtune-installation
     uses: actions/cache@v3
     with:
-      path: ${{ env.HOME }}/intel/oneapi
+      path: /home/runner/intel/oneapi
       key: vtune
 
   # Install on cache miss.
@@ -36,7 +36,7 @@ runs:
   - name: Debug
     run: |
       echo $HOME
-      echo $HOME/intel/oneapi
+      ls -al $HOME/intel/oneapi
     shell: bash
 
   # Configure the GitHub runner.
