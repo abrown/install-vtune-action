@@ -33,7 +33,7 @@ runs:
     shell: bash
     working-directory: ${{ github.action_path }}
 
-  - name: Debug
+  - name: Debug...
     run: |
       echo $HOME
       ls -al $HOME/intel/oneapi
