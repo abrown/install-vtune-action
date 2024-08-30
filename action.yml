@@ -8,10 +8,10 @@ description: 'Install the VTune binaries on a GitHub runner'
 inputs:
   url:
     description: 'The location of the VTune installation script'
-    default: 'https://registrationcenter-download.intel.com/akdlm/IRC_NAS/dfae6f23-6c90-4b9f-80e2-fa2a5037fe36/l_oneapi_vtune_p_2023.2.0.49485_offline.sh'
+    default: 'https://registrationcenter-download.intel.com/akdlm/IRC_NAS/d703d28b-d70b-4c90-bdb1-c3562c1084e5/l_oneapi_vtune_p_2024.2.1.68_offline.sh'
   sha384:
     description: 'The SHA-384 hash of the VTune installation script'
-    default: '43431383783e8a204f67f5f6719f74becb8e3c97862661b20b56c2c5d87c529d103a1493779565b4bbb3f372092c1b6b'
+    default: 'd8c46ac17d0ae16ad69a52c772569a3ea43f4772c292e5134cf7853d1cceef38955eea3b35ba839e5b669d266a2ea415'
   env:
     description: 'Run the VTune setup script to configure the runner environment'
     default: true
