@@ -3,8 +3,14 @@ description: 'Install the VTune binaries on a GitHub runner'
 
 # See https://docs.github.com/en/actions/creating-actions/metadata-syntax-for-github-actions#inputs
 inputs:
+  url:
+    description: 'The location of an offline VTune installation script'
+    default: 'https://registrationcenter-download.intel.com/akdlm/IRC_NAS/dfae6f23-6c90-4b9f-80e2-fa2a5037fe36/l_oneapi_vtune_p_2023.2.0.49485_offline.sh'
+  sha384:
+    description: 'The SHA-384 hash of the offline VTune installation script'
+    default: '43431383783e8a204f67f5f6719f74becb8e3c97862661b20b56c2c5d87c529d103a1493779565b4bbb3f372092c1b6b'
   env:
-    description: 'Run the VTune setup script to configure the environment'
+    description: 'Run the VTune setup script to configure the runner environment'
     default: true
 
 runs:
@@ -18,26 +24,24 @@ runs:
     working-directory: ${{ github.action_path }}
     if: ${{ !startsWith(runner.os, 'linux') }}
 
-  # Cache the entire VTune installation directory.
+  # Cache the entire VTune installation directory; use a prefix of the SHA-384 hash to make the
+  # cache key unique.
+  - name: Calculate cache ID
+    run: echo VTUNE_ID=$(echo "${{ inputs.sha384 }}" | cut -c1-7) >> $GITHUB_ENV
+    shell: bash
   - name: Cache artifacts
     id: cache-vtune-installation
     uses: actions/cache@v3
     with:
       path: /home/runner/intel/oneapi
-      key: vtune
+      key: vtune-${{ env.VTUNE_ID }}
 
-  # Install on cache miss.
+  # Download and install only on cache miss.
   - if: ${{ steps.cache-vtune-installation.outputs.cache-hit != 'true' }}
     name: Install
-    run: ./install.sh
+    run: ./install.sh ${{ inputs.url }} ${{ inputs.sha384 }}
     shell: bash
     working-directory: ${{ github.action_path }}
-
-  - name: Debug...
-    run: |
-      echo $HOME
-      ls -al $HOME/intel/oneapi
-    shell: bash
 
   # Configure the GitHub runner.
   - name: Setup environment
