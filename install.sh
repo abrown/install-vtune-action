@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 set -e
 
-# Install VTune on Linux from the offline script. See
-# https://www.intel.com/content/www/us/en/developer/tools/oneapi/vtune-profiler-download.html?operatingsystem=linux&distributions=offline.
+# Download and install VTune on Linux using the URL to an offline installer script. See `action.yml`
+# for how to retrieve the URL and SHA384 checksum.
+#
+# Usage: install.sh <url> <sha384>
 
 if [[ $# -ne 2 ]] ; then
     echo 'incorrect number of parameters; usage: install.sh <url> <sha384>'

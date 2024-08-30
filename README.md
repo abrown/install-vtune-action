@@ -18,6 +18,10 @@ environments are highly limited and certain knobs are not available.
 
 ### Parameters
 
-| Input     | Default  | Description                                              |
-|-----------|----------|----------------------------------------------------------|
-| `env`     | true     | Run the VTune setup script to configure the environment. |
+| Input     | Default          | Description                                              |
+|-----------|------------------|----------------------------------------------------------|
+| `url`     | See [action.yml] | The location of an VTune installation script.            |
+| `sha384`  | See [action.yml] | The SHA-384 hash of the VTune installation script        |
+| `env`     | true             | Run the VTune setup script to configure the environment. |
+
+[action.yml]: ./action.yml
